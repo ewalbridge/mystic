@@ -1,1 +1,1 @@
-print 'tester'
+print 'test'
