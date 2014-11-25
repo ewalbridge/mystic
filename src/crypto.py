@@ -9,7 +9,7 @@ class generate(object):
         mem = BIO.MemoryBuffer()
 
         # save the private key and encrypt
-        rsa.save_key_bio(mem, cipher='aes_256_cbc', callback=lambda x: self.__passphrase(secret))
+        rsa.save_key_bio(mem, cipher='aes_256_cbc', callback=lambda x: self.passphrase(secret))
         self.keyprv = mem.read_all()
         mem.flush
 		
@@ -18,5 +18,5 @@ class generate(object):
         self.keypub = mem.read_all()
         mem.flush
 
-    def __passphrase(self, secret):
+    def passphrase(self, secret):
         return secret
