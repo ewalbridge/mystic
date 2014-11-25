@@ -17,7 +17,7 @@ def timing(f):
 def process():
     x = crypto.generate(sys.argv[1], 1024) # 1024 2048 4096 6144 8192
     print ''
-    print x.keyprv
-    print x.keypub
+    print x.private_key
+    print x.pubkic_key
 
 process()

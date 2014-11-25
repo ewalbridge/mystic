@@ -2,7 +2,7 @@
 
 import M2Crypto, os, random, string, sys, ntpath
 from M2Crypto import RSA, BIO 
-from base64 import b64decode 
+from base64 import b64decode
 
 def filepath(*args):
     return sys.argv[1]
