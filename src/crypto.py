@@ -10,13 +10,23 @@ class generate(object):
 
         # save the private key and encrypt
         rsa.save_key_bio(mem, cipher='aes_256_cbc', callback=lambda x: self.passphrase(secret))
-        self.keyprv = mem.read_all()
+        self.__keyprv = mem.read_all()
         mem.flush
-		
+
         # save the public key
         rsa.save_pub_key_bio(mem)
-        self.keypub = mem.read_all()
+        self.__keypub = mem.read_all()
         mem.flush
 
     def passphrase(self, secret):
         return secret
+
+    @property
+    def private_key(self):
+        # Do something if you want
+        return self.__keyprv
+
+    @property
+    def pubkic_key(self):
+        # Do something if you want
+        return self.__keypub
