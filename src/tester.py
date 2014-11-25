@@ -15,11 +15,7 @@ def timing(f):
 
 @timing
 def process():
-    x = crypto.generate(sys.argv[1], 4096)
-    print ''
-    print '-----BEGIN PASSKEY-----'
-    print crypto.PASSKEY
-    print '-----END PASSKEY-----'
+    x = crypto.generate(sys.argv[1], 1024) # 1024 2048 4096 6144 8192
     print ''
     print x.keyprv
     print x.keypub
