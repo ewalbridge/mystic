@@ -7,7 +7,7 @@
     <ProjectHome>
     </ProjectHome>
     <StartupFile>src\tester.py</StartupFile>
-    <SearchPath>..\libs\python2_7\M2Crypto-0.21.1-py2.7-win-amd64.egg</SearchPath>
+    <SearchPath>..\..\libs\python2_7\M2Crypto-0.21.1-py2.7-win-amd64.egg</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>mystic</Name>
@@ -23,13 +23,12 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="src\compress.py">
+    <Compile Include="src\zipper.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\enc.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="src\genrsay.py" />
     <Compile Include="src\crypto.py">
       <SubType>Code</SubType>
     </Compile>

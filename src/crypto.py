@@ -1,7 +1,7 @@
 import sys
 from M2Crypto import RSA, BIO
 
-class generate(object):
+class generate_keys(object):
     def __init__(self, secret, bitsize):
 
         # generate the key
@@ -9,7 +9,7 @@ class generate(object):
         mem = BIO.MemoryBuffer()
 
         # save the private key and encrypt
-        rsa.save_key_bio(mem, cipher='aes_256_cbc', callback=lambda x: self.passphrase(secret))
+        rsa.save_key_bio(mem, cipher='aes_256_cbc', callback=lambda x: self.__passphrase(secret))
         self.__keyprv = mem.read_all()
         mem.flush
 
@@ -18,15 +18,13 @@ class generate(object):
         self.__keypub = mem.read_all()
         mem.flush
 
-    def passphrase(self, secret):
+    def __passphrase(self, secret):
         return secret
 
     @property
-    def private_key(self):
-        # Do something if you want
+    def prv_key(self):
         return self.__keyprv
 
     @property
-    def pubkic_key(self):
-        # Do something if you want
+    def pub_key(self):
         return self.__keypub
