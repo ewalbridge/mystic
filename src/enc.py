@@ -49,10 +49,10 @@ def decrypt_file(key, in_filename, out_filename, iv):
 length = 982
 passkey = os.urandom(length)
 
-key = open(keypath() + '.pub', 'r').read() 
+key = open(keypath() + '.pub', 'r').read()
 pubkey = str(key).encode('utf8')
 bio = BIO.MemoryBuffer(pubkey)
-rsa = RSA.load_pub_key_bio(bio) 
+rsa = RSA.load_pub_key_bio(bio)
 encrypted = rsa.public_encrypt(passkey, RSA.pkcs1_oaep_padding)
 encrypted_pw = encrypted.encode('base64')
 

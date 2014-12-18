@@ -1,28 +1,36 @@
 #!/usr/bin/python
+ 
+import M2Crypto, binascii
 
-import crypto, sys, time, zipper, io
+class AESEncryptionService(object):
+    def ec(self, key, msg):
+        try:
+            encrypted = self.__cipher(key, msg, 1)
+            return encrypted
+        except:
+            return 'encrypt error'
 
-def timing(f):
-    def wrap(*args):
-        time1 = time.time()
-        ret = f(*args)
-        time2 = time.time()
-        print '%s() took %0.3f milliseconds to complete...' % (f.func_name, (time2-time1)*1000)
-        print''
-        return ret
-    return wrap
+    def decrypt(self, key, msg):
+        try:
+            dc = self.__cipher(key, msg, 0)
+            return dc
+        except:
+            return 'decrypt error'
 
-#@timing
-def process():
-    ####crypt = crypto.generate_keys(sys.argv[1], 1024) # 1024 2048 4096 6144 8192
-    ####print ''
-    #print crypt.prv_key
-    #print crypt.pub_key
+    def __cipher(self, key, msg, op):
+        iv = '\0' * 16
+        iv.encode('ascii')
+        cipher = M2Crypto.EVP.Cipher(alg='aes_256_cbc', key=key, iv=iv, op=op)
+        v = cipher.update(msg)
+        v = v + cipher.final()
+        del cipher
+        return v
 
-    b = "Eric Walbridge"
+password = 'asdfadfasdfasdfasdfasdf'
 
-    z = zipper.compress(b)
-    print z
-    print zipper.decompress(z)
+crypto_service = AESEncryptionService()
+cipher = binascii.hexlify(crypto_service.ec(password, "hello world"))
+print cipher
 
-process()
+cipher = crypto_service.decrypt(password, binascii.unhexlify(cipher))
+print cipher
