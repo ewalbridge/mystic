@@ -7,7 +7,7 @@
     <ProjectHome>
     </ProjectHome>
     <StartupFile>src\tester.py</StartupFile>
-    <SearchPath>..\..\libs\python2_7\M2Crypto-0.21.1-py2.7-win-amd64.egg</SearchPath>
+    <SearchPath>..\..\libraries\python2_7\M2Crypto-0.21.1-py2.7-win-amd64.egg</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>mystic</Name>
@@ -23,9 +23,14 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="src\zipper.py">
+    <Compile Include="src\app.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\keygen.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\m2secret.py" />
+    <Compile Include="src\tester2.py" />
     <Compile Include="src\enc.py">
       <SubType>Code</SubType>
     </Compile>
