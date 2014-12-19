@@ -10,10 +10,10 @@ class AESEncryptionService(object):
         except:
             return 'encrypt error'
 
-    def decrypt(self, key, msg):
+    def dc(self, key, msg):
         try:
-            dc = self.__cipher(key, msg, 0)
-            return dc
+            decrypted = self.__cipher(key, msg, 0)
+            return decrypted
         except:
             return 'decrypt error'
 
@@ -26,11 +26,11 @@ class AESEncryptionService(object):
         del cipher
         return v
 
-password = 'asdfadfasdfasdfasdfasdf'
+password = binascii.hexlify('password')
 
 crypto_service = AESEncryptionService()
-cipher = binascii.hexlify(crypto_service.ec(password, "hello world"))
-print cipher
 
-cipher = crypto_service.decrypt(password, binascii.unhexlify(cipher))
+cipher = crypto_service.ec(password, 'hello world')
+print cipher
+cipher = crypto_service.dc(password, cipher)
 print cipher

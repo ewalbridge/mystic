@@ -1,7 +1,8 @@
 #!/usr/bin/python
 
-import crypto, sys, time, io, os, base64
+import crypto, sys, time, io, os, base64, binascii
 from io import BytesIO
+from base64 import b64encode
 
 def timing(function):
     def wrap(*args):
@@ -18,16 +19,17 @@ def main():
 
     pub_key = open('/share/projects/development/source/mystic/opt/var/keys/eric.walbridge.pub', 'r')
     prv_key = open('/share/projects/development/source/mystic/opt/var/keys/eric.walbridge.prv', 'r')
-    enc_file = open('/share/projects/development/source/mystic/opt/var/files/tmp/test.docx', 'rb')
-    #dec_file = open('/share/projects/development/source/mystic/opt/var/files/tmp/test.enc', 'rb')
+    enc_file = open('/share/projects/development/source/mystic/opt/var/files/tmp/test.pdf', 'rb')
+    dec_file = open('/share/projects/development/source/mystic/opt/var/files/tmp/test2.pdf', 'wb')
     print ''
-    encrypt = crypto.encrypt('Eric Walbridge', 'password1234567890aaa', pub_key.read())
-    #print encrypt.encrypted_password
+    encrypt = crypto.encrypt(enc_file.read(), crypto.random_password(), pub_key.read())
+    #print b64encode(encrypt.encrypted_password)
     #print encrypt.data
     #print ''
     decrypt = crypto.decrypt(encrypt.data, encrypt.encrypted_password, prv_key.read(), '0123456789')
     #print decrypt.decrypted_password
-    print decrypt.data
+    #print b64encode(decrypt.data)
+    dec_file.write(decrypt.data)
     print ''
 
     #full_path = sys.argv[1]

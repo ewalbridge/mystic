@@ -41,26 +41,17 @@ class keys(object):
     def pub_key(self):
         return self.__pub_key
 
-class AESEncryptionService(object):
-    def ec(self, key, msg):
-        #try:
-            encrypted = self.__cipher(key, msg, 1)
-            return encrypted
-        #except:
-            #return 'encrypt error'
+class aes_encryption_service(object):
+    def aes_encrypt(self, key, msg):
+        return self.__cipher(key, msg, 1)
 
-    def dc(self, key, msg):
-        #try:
-            decrypt = self.__cipher(key, msg, 0)
-            return decrypt
-        #except:
-            #return 'decrypt error'
+    def aes_decrypt(self, key, msg):
+        return self.__cipher(key, msg, 0)
 
     def __cipher(self, key, msg, op):
-        k=key
         iv = '\0' * 16
         iv.encode('ascii')
-        cipher = M2Crypto.EVP.Cipher(alg='aes_256_cbc', key=k, iv=iv, op=op)
+        cipher = M2Crypto.EVP.Cipher(alg='aes_256_cbc', key=key, iv=iv, op=op)
         v = cipher.update(msg)
         v = v + cipher.final()
         del cipher
@@ -73,16 +64,11 @@ class encrypt(object):
         rsa = RSA.load_pub_key_bio(bio) # load public key
         
         pwd = password
-        #pwd = gzip.zlib.compress(pwd, 9)
         enc = rsa.public_encrypt(pwd, RSA.pkcs1_oaep_padding) # encrypt password
-        self.__encrypted_password = binascii.hexlify(enc) #enc.encode('base64') # encode password
+        self.__encrypted_password = b64encode(enc) #enc.encode('base64') # encode password
 
-        #####
-        print binascii.crc32(password)
-        #####
-
-        crypto_service = AESEncryptionService()
-        cipher = binascii.hexlify(crypto_service.ec(password, data))
+        crypto_service = aes_encryption_service()
+        cipher = b64encode(crypto_service.aes_encrypt(password, data))
         self.__data = cipher
 
     @property
@@ -100,21 +86,12 @@ class decrypt(object):
         bio = BIO.MemoryBuffer(str(private_key).encode('utf8')) # read private key into memory
         rsa = RSA.load_key_bio(bio, callback=lambda x: self.__passphrase(private_key_password)) # load private key
         
-        pwd = binascii.unhexlify(password) # decode password
-        #pwd = gzip.zlib.decompress(pwd, 9)
+        pwd = b64decode(password) # decode password
         dnc = str(rsa.private_decrypt(pwd, RSA.pkcs1_oaep_padding)) #  decrypt password
         self.__decrypted_password = dnc
-        
-        #####
-        print dnc
-        dnc = 'password1234567890aaa'
-        print binascii.crc32(dnc)
-        print 'dev'
-        print dnc
-        #####
 
-        crypto_service = AESEncryptionService()
-        cipher = crypto_service.dc(dnc, binascii.unhexlify(data))
+        crypto_service = aes_encryption_service()
+        cipher = crypto_service.aes_decrypt(dnc, b64decode(data))
         self.__data = cipher
 
     def __passphrase(self, secret):
@@ -128,6 +105,10 @@ class decrypt(object):
     def data(self):
         return self.__data
 
+def random_password():
+    length = random.randrange(491, 982) #491, 982
+    return os.urandom(length)
+
 def compress(value):
     out = gzip.zlib.compress(value, 9)
     return out
@@ -136,6 +117,3 @@ def decompress(value):
     out = gzip.zlib.decompress(value)
     return out
 
-def random_password():
-    length = random.randrange(491, 982) #982
-    return os.urandom(length)
